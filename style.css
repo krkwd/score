@@ -1,0 +1,142 @@
+body {
+    font-family: sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 800px;
+}
+
+h1, h2, h3 {
+    color: #0056b3;
+}
+
+.hidden {
+    display: none;
+}
+
+/* --- Setup Screen --- */
+.input-group {
+    margin-bottom: 20px;
+}
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+input[type="number"] {
+    width: 100px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* --- Test & Results Screens --- */
+.question-row {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.question-number {
+    font-weight: bold;
+    min-width: 40px;
+}
+
+.choices, .user-answers {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.correct-answer-choices {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-left: 1in; /* CHANGED: Added left margin */
+}
+
+.confidence-check {
+    margin-left: 1in;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.confident-text, #confidence-score-percent { /* CHANGED: Added score to selector */
+    color: orange;
+    font-weight: bold;
+}
+
+.user-answers {
+    min-width: 100px;
+    font-weight: bold;
+    color: #0056b3;
+}
+
+/* --- Score Header --- */
+.score-header {
+    background-color: #e7f1ff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex; /* CHANGED: Added flex properties for layout */
+    justify-content: space-between;
+    align-items: center;
+}
+
+.score-display {
+    text-align: right; /* Aligns scores to the right */
+    flex-grow: 1; /* Allows this element to fill space */
+}
+
+/* --- Buttons --- */
+button {
+    display: block;
+    margin: 20px auto 0 auto;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* NEW: Style for the reset button */
+#reset-btn {
+    background-color: #6c757d;
+    margin: 0; /* Override the auto margin */
+}
+
+#reset-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Add these new rules to the bottom of your style.css file */
+
+h4 {
+    color: #856404; /* A brownish-yellow cautionary color */
+    margin: 5px 0 0 0;
+}
+
+#cockiness-index-percent {
+    font-weight: bold;
+    color: #b58500;
+}
