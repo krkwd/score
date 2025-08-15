@@ -48,10 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
         displayResults();
         testScreen.classList.add('hidden');
         resultsScreen.classList.remove('hidden');
+		window.scrollTo(0, 0); // NEW: Scroll to top of page
     });
 
     // 3. Calculate Final Score
     calculateScoreBtn.addEventListener('click', () => {
+		window.scrollTo(0, 0); // NEW: Scroll to top of page
         calculateFinalScore();
         resetBtn.classList.remove('hidden'); // CHANGED: Show reset button
     });
@@ -152,10 +154,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-// Replace your old function with this new one
 function calculateFinalScore() {
+    // NEW: First, clear any previous review marks
+    document.querySelectorAll('#results-container .question-row').forEach(row => {
+        row.classList.remove('marked-for-review');
+    });
+
     let correctCount = 0;
-    // NEW: Counters for the Cockiness Index
     let confidentAndWrong = 0;
     let totalConfident = 0;
 
@@ -163,7 +168,9 @@ function calculateFinalScore() {
         const questionData = testData[i - 1];
         const correctAnswerInput = document.querySelector(`input[name="correct-q${i}"]:checked`);
         
-        // NEW: Check if this question was marked confident
+        // Find the specific question row element to modify its style if wrong
+        const questionRowElement = correctAnswerInput ? correctAnswerInput.closest('.question-row') : document.querySelector(`input[name="correct-q${i}"]`).closest('.question-row');
+
         if (questionData.isConfident) {
             totalConfident++;
         }
@@ -175,16 +182,18 @@ function calculateFinalScore() {
             if (userAnswers.includes(correctAnswer)) {
                 correctCount++;
             } else {
-                // NEW: If the answer is wrong, check if it was marked confident
+                // Answer is wrong
                 if (questionData.isConfident) {
                     confidentAndWrong++;
                 }
+                questionRowElement.classList.add('marked-for-review'); // NEW: Mark row as incorrect
             }
         } else {
-            // NEW: An unanswered question is also wrong. Check for confidence.
+            // An unanswered question is also wrong
              if (questionData.isConfident) {
                 confidentAndWrong++;
             }
+            questionRowElement.classList.add('marked-for-review'); // NEW: Mark row as incorrect
         }
     }
     
@@ -192,7 +201,7 @@ function calculateFinalScore() {
     const finalScorePercent = totalQuestions > 0 ? ((correctCount / totalQuestions) * 100).toFixed(0) : 0;
     finalScoreSpan.textContent = finalScorePercent;
 
-    // NEW: Calculate and display Cockiness Index
+    // Calculate and display Cockiness Index
     let cockinessIndex = 0;
     if (totalConfident > 0) {
         cockinessIndex = ((confidentAndWrong / totalConfident) * 100).toFixed(0);
