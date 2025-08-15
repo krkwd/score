@@ -65,40 +65,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Core Logic ---
 
-    function createTest(questions, choices) {
-        questionsContainer.innerHTML = '';
-        for (let i = 1; i <= questions; i++) {
-            let choicesHTML = '';
-            for (let j = 0; j < choices; j++) {
-                const letter = generateLetter(j);
-                choicesHTML += `
-                    <label>
-                        <input type="checkbox" name="q${i}" value="${letter}">
-                        ${letter}
-                    </label>
-                `;
-            }
+function createTest(questions, choices) {
+    questionsContainer.innerHTML = ''; // Clear previous test
 
-            const questionHTML = `
-                <div class="question-row" id="question-${i}">
-                    <span class="question-number">${i}.</span>
-                    <div class="choices">${choicesHTML}</div>
-                    <div class="confidence-check">
-                        <input type="checkbox" class="confidence-box">
-                        <span class="confident-text"></span>
-                    </div>
-                </div>
+    // NEW: Create and insert a header row for the labels
+    const headerHTML = `
+        <div class="question-row column-header">
+            <span class="question-number"></span>
+            <div class="choices"></div>
+            <div class="confidence-check">
+                <span>Confident</span>
+            </div>
+        </div>
+    `;
+    questionsContainer.insertAdjacentHTML('beforeend', headerHTML);
+    // END of new code
+
+    for (let i = 1; i <= questions; i++) {
+        let choicesHTML = '';
+        for (let j = 0; j < choices; j++) {
+            const letter = generateLetter(j);
+            choicesHTML += `
+                <label>
+                    <input type="checkbox" name="q${i}" value="${letter}">
+                    ${letter}
+                </label>
             `;
-            questionsContainer.insertAdjacentHTML('beforeend', questionHTML);
         }
 
-        document.querySelectorAll('.confidence-box').forEach(box => {
-            box.addEventListener('change', (e) => {
-                const textSpan = e.target.nextElementSibling;
-                textSpan.textContent = e.target.checked ? 'CONFIDENT' : '';
-            });
-        });
+        const questionHTML = `
+            <div class="question-row" id="question-${i}">
+                <span class="question-number">${i}.</span>
+                <div class="choices">${choicesHTML}</div>
+                <div class="confidence-check">
+                    <input type="checkbox" class="confidence-box">
+                    <span class="confident-text"></span>
+                </div>
+            </div>
+        `;
+        questionsContainer.insertAdjacentHTML('beforeend', questionHTML);
     }
+
+    // Add live feedback for "CONFIDENT" text
+    document.querySelectorAll('.confidence-box').forEach(box => {
+        box.addEventListener('change', (e) => {
+            const textSpan = e.target.nextElementSibling;
+            textSpan.textContent = e.target.checked ? 'CONFIDENT' : '';
+        });
+    });
+}
 
     function saveAnswers() {
         testData = [];
